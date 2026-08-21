@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array</title>
+</head>
+<body>
+
+    <h1>Array Items</h1>
+    
+
+    <form>
+        <input typ="text" name="findItem" id="findItem" placeholder="Find item">
+        <input type="submit" id="findBtn" value="Find Item"> <br>
+
+        <br>
+        <!--User Input-->
+        <input type="text" name="name" id="inputNum" placeholder="Enter item"> 
+
+        <!--Submit Button-->
+        <input type="submit" id="showBtn" value="Show Items">
+    
+        <!--Add Item-->
+        <input type="button" id="addBtn" value="Add Item">
+
+        <!--Remove Item-->
+        <input type="button" id="removeBtn" value="Remove Item"> 
+    </form>
+  
+    <script>
+        let userInput = document.getElementById('inputNum');
+        let addBtn = document.getElementById('addBtn');
+        let showBtn = document.getElementById('showBtn');
+        let removeBtn = document.getElementById('removeBtn');
+        // Find item input and button
+        let findItem = document.getElementById('findItem');
+        let findBtn = document.getElementById('findBtn');
+
+
+        const itemsArray = [];
+
+        // Function to check if the array is empty
+        let itemsISEmpty = () => {
+            if (itemsArray.length === 0) {
+                alert("The array is empty");
+                return true;
+            }
+            return false;
+        }
+
+      
+        // Function to display items in the array
+        let displayItems = (e) => {
+            e.preventDefault();
+             if (itemsISEmpty()) return;
+            alert(`Items in the array: ${itemsArray.join(", ")}`);
+
+        } 
+        // Function to add items to the array
+        let addItems = (e) => {
+            e.preventDefault();
+            let newItem = userInput.value.trim();
+
+            if (newItem === "") {
+                alert("Please enter a valid item");
+                return;
+            }
+
+            itemsArray.push(newItem);
+            userInput.value = "";
+        }
+        // Function to remove items from the array
+        let removeItems = (e) => {
+            e.preventDefault(); 
+            if (itemsISEmpty()) return;
+           
+
+           let removedItem = itemsArray.pop(); 
+            alert(`Removed item: "${removedItem}"`);
+        }
+
+        let findItemInArray = (e) => {
+            e.preventDefault();
+            
+            let itemToFind = findItem.value.trim();
+
+            if (itemToFind === "") {
+                alert("Please enter an item to find");
+                return;
+            }
+
+            itemsArray.includes(itemToFind) ? alert(`Item "${itemToFind}" found in the array`) : alert(`Item "${itemToFind}" not found in the array`);
+
+            itemsToFind.value = "";
+        }
+
+
+        //Functions Activator
+        addBtn.addEventListener('click', addItems);
+        showBtn.addEventListener('click', displayItems);
+        removeBtn.addEventListener('click', removeItems);
+        findBtn.addEventListener('click', findItemInArray);
+
+    </script>
+
+</body>
+</html>
