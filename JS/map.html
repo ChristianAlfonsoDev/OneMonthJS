@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live DOM Search</title>
+</head>
+<body>
+    
+    
+   
+
+    <script>
+    let usdPrices = [10, 25, 50, 100];
+    
+    let Prices = usdPrices.map(usdPrice => `€${(usdPrice * 0.90).toFixed(2)}`);     
+    console.log(Prices);
+
+    let movies = [
+        { title: "Inception", rating: "PG-13" },
+        { title: "Deadpool", rating: "R" },
+        { title: "Toy Story", rating: "G" },
+        { title: "Joker", rating: "R" }
+    ];
+
+    let movieOnlyR = movies.filter(movie => movie.rating !== "R");
+
+    console.log(movieOnlyR);
+
+
+    let users = [
+        { name: "Sarah", email: "sarah@gmail.com", isActive: true },
+        { name: "John", email: "john@yahoo.com", isActive: false },
+        { name: "Maria", email: "maria@outlook.com", isActive: true }
+    ];
+
+
+    let activeUsers = users.filter(users => users.isActive === true).map(users => users.email);
+
+    console.log(activeUsers);
+
+    </script>
+</body>
+</html>
