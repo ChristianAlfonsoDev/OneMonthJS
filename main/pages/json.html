@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON Single Page Example</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f7f6;
+      padding: 40px;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 30px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+
+    .card h3 {
+      margin: 0 0 10px 0;
+      color: #333;
+    }
+
+    .card p {
+      margin: 5px 0;
+      color: #666;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Team Directory</h1>
+    <button id="load-btn">Load Team Members</button>
+    <div id="user-list" class="grid"></div>
+  </div>
+
+  <script>
+    // 1. Raw JSON string embedded directly in JS
+    const jsonData = `[
+      {
+        "id": 1,
+        "name": "Sarah Connor",
+        "role": "Lead Developer",
+        "email": "sarah@example.com"
+      },
+      {
+        "id": 2,
+        "name": "Alex Rivera",
+        "role": "UI/UX Designer",
+        "email": "alex@example.com"
+      },
+      {
+        "id": 3,
+        "name": "James Chen",
+        "role": "Data Scientist",
+        "email": "james@example.com"
+      }
+    ]`;
+
+    const loadBtn = document.getElementById('load-btn');
+    const userList = document.getElementById('user-list');
+
+    // 2. Function to process JSON and build HTML
+    function renderUsers() {
+      // Parse JSON text into a usable JavaScript array
+      const users = JSON.parse(jsonData);
+
+      userList.innerHTML = ''; // Clear existing cards
+
+      users.forEach(user => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <h3>${user.name}</h3>
+          <p><strong>Role:</strong> ${user.role}</p>
+          <p><strong>Email:</strong> ${user.email}</p>
+        `;
+        userList.appendChild(card);
+      });
+    }
+
+    // 3. Attach event listener to the button
+    loadBtn.addEventListener('click', renderUsers);
+  </script>
+
+</body>
+</html>

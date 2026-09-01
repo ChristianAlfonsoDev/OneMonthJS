@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .main {
+        display: flex;
+        justify-content: center;
+        align-items: center;  
+        height: 100vh;
+        width: 100vw;
+    }
+
+    .sidebar {
+        flex: 0.2;
+        border: 1px solid black;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .content{
+        flex: 0.8;
+        height: 100%;
+        width: 100%;
+        border: 1px solid violet;
+        flex-direction: column;
+        display: flex;
+        
+    }
+
+    .welcome {
+        flex:0.8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .footer {
+        flex: 0.2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+
+    
+    
+    
+</style>
+<body>
+    
+    <div class="main">
+        <div class="sidebar">
+            <a href="../pages/index.html">Ai search</a>
+            <a href="../pages/research.html">research</a>
+        </div>
+        <div class="content">
+            <div class="welcome">Hello! leoncio welcome to the AI search</div>
+            <div class="footer">
+                <input type="text" placeholder="search">
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
