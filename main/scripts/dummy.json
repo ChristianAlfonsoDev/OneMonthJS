@@ -1,0 +1,18 @@
+[
+    {
+        "researchName": "dummy research",
+        "description": "This is a dummy research project.",
+        "researcher": "John Doe"
+    },
+    {
+        "researchName": "another dummy research",
+        "description": "This is another dummy research project.",
+        "researcher": "Jane Smith"
+    },
+    {
+        "researchName": "yet another dummy research",
+        "description": "This is yet another dummy research project.",
+        "researcher": "Alice Johnson"
+    }
+]
+
