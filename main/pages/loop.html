@@ -24,24 +24,39 @@
 //   }
 // }
 
-        const codes = ["abc", "xyz", "open123", "def"];
+//         const codes = ["abc", "xyz", "open123", "def"];
 
-function findPassword(codes) {
+// function findPassword(codes) {
 
-    for (const key of codes) {
-      if (key === "open123"){
-        console.log("password found!")
-        return;
+//     for (const key of codes) {
+//       if (key === "open123"){
+//         console.log("password found!")
+//         return;
+//       }
+//     }
+//     console.log("no password found")
+//     return;
+//     // your code here
+// }
+
+// console.log(findPassword(codes));
+
+
+const ages = [15, 22, 17, 12, 30, 16];
+
+function countAllowed(ages) {
+    let count = 0;
+
+    for (const key of ages) {
+      if (key >= 17) {
+        count++;
       }
     }
-    console.log("no password found")
-    return;
-    // your code here
+    return count;
 }
 
+console.log(countAllowed(ages));
 
-
-console.log(findPassword(codes));
 
     </script>
 </body>
