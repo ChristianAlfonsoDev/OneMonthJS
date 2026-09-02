@@ -9,20 +9,40 @@
     
 
     <script>
-        const students = [
-    { name: "Mia", grade: 90 },
-    { name: "Leo", grade: 55 },
-    { name: "Ana", grade: 72 }
-];
+//         const students = [
+//     { name: "Mia", grade: 90 },
+//     { name: "Leo", grade: 55 },
+//     { name: "Ana", grade: 72 }
+// ];
 
 
-for (const key of students) {
-  if (key.grade > 60 ) {
-    console.log(`${key.name} is passed`)
-  } else {
-    console.log(`${key.name} is failed`)
-  }
+// for (const key of students) {
+//   if (key.grade > 60 ) {
+//     console.log(`${key.name} is passed`)
+//   } else {
+//     console.log(`${key.name} is failed`)
+//   }
+// }
+
+        const codes = ["abc", "xyz", "open123", "def"];
+
+function findPassword(codes) {
+
+    for (const key of codes) {
+      if (key === "open123"){
+        console.log("password found!")
+        return;
+      }
+    }
+    console.log("no password found")
+    return;
+    // your code here
 }
+
+
+
+console.log(findPassword(codes));
+
     </script>
 </body>
 </html> 
