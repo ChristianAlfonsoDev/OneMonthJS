@@ -1,15 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control Flow</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local Excel Direct Writer</title>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: #f0f2f5; padding: 40px 20px; display: flex; justify-content: center; }
+    .container { background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 100%; max-width: 480px; }
+    h2 { margin-bottom: 20px; color: #1c1e21; text-align: center; }
+    
+    .file-select-box { background: #e7f3ff; border: 1px dashed #1877f2; border-radius: 6px; padding: 15px; text-align: center; margin-bottom: 20px; }
+    .file-select-box p { font-size: 13px; color: #555; margin-bottom: 10px; }
+    
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 13px; color: #4b4f56; }
+    input[type="text"], input[type="tel"], input[type="email"] { width: 100%; padding: 10px; border: 1px solid #ccd0d5; border-radius: 4px; font-size: 14px; }
+    input:focus { border-color: #1877f2; outline: none; }
+    
+    button { width: 100%; padding: 12px; border: none; border-radius: 4px; font-size: 14px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+    .btn-connect { background-color: #1877f2; color: white; }
+    .btn-connect:hover { background-color: #166fe5; }
+    .btn-submit { background-color: #42b72a; color: white; margin-top: 10px; }
+    .btn-submit:hover { background-color: #36a420; }
+    
+    .status { margin-top: 15px; text-align: center; font-size: 13px; font-weight: 600; word-break: break-word; padding: 10px; border-radius: 4px; }
+    .status.success { color: #155724; background-color: #d4edda; }
+    .status.error { color: #721c24; background-color: #f8d7da; }
+    .status.info { color: #0c5460; background-color: #d1ecf1; }
+  </style>
 </head>
 <body>
+
+<div class="container">
+  <h2>Data Entry Form</h2>
+
+  <div class="file-select-box">
+    <p>Select your <strong>form.xlsx</strong> file to link direct editing.</p>
+    <button type="button" id="linkFileBtn" class="btn-connect">1. Select form.xlsx</button>
+  </div>
+
+  <form id="dataForm">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" id="name" required>
+    </div>
+    <div class="form-group">
+      <label for="position">Position / Designation</label>
+      <input type="text" id="position" required>
+    </div>
+    <div class="form-group">
+      <label for="contact">Contact No.</label>
+      <input type="tel" id="contact" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" required>
+    </div>
+    <div class="form-group">
+      <label for="location">Location / City / Town</label>
+      <input type="text" id="location" required>
+    </div>
+    <div class="form-group">
+      <label for="school">School</label>
+      <input type="text" id="school" required>
+    </div>
     
+    <button type="submit" id="submitBtn" class="btn-submit">2. Save to Excel</button>
+  </form>
 
+  <div id="statusMsg" class="status info">Status: Ready. Please select file first.</div>
+</div>
 
+<script>
+  let fileHandle = null;
+  const localRecords = [];
 
-    <script src="../scripts/control_flow.js"></script>
+  const linkFileBtn = document.getElementById('linkFileBtn');
+  const submitBtn = document.getElementById('submitBtn');
+  const dataForm = document.getElementById('dataForm');
+  const statusMsg = document.getElementById('statusMsg');
+
+  // Step 1: Connect File
+  linkFileBtn.addEventListener('click', async () => {
+    try {
+      if (!('showOpenFilePicker' in window)) {
+        showStatus('Error: Your browser blocks file editing. Use Chrome or Edge.', 'error');
+        return;
+      }
+
+      [fileHandle] = await window.showOpenFilePicker({
+        types: [{
+          description: 'Excel Files',
+          accept: { 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'] }
+        }]
+      });
+
+      linkFileBtn.textContent = 'File Connected ✓';
+      linkFileBtn.style.backgroundColor = '#42b72a';
+      showStatus(`Connected to: ${fileHandle.name}. Fill form and click Save.`, 'success');
+    } catch (err) {
+      console.error(err);
+      showStatus('File selection cancelled or failed.', 'error');
+    }
+  });
+
+  // Step 2: Save Data
+  dataForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const newEntry = {
+      "Name": document.getElementById('name').value,
+      "Position / Designation": document.getElementById('position').value,
+      "Contact No.": document.getElementById('contact').value,
+      "Email": document.getElementById('email').value,
+      "Location / City / Town": document.getElementById('location').value,
+      "School": document.getElementById('school').value
+    };
+
+    // Fallback: If no file linked, force download new file
+    if (!fileHandle) {
+      localRecords.push(newEntry);
+      const ws = XLSX.utils.json_to_sheet(localRecords);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "form");
+      XLSX.writeFile(wb, "form.xlsx");
+      dataForm.reset();
+      showStatus('No file connected! Downloaded new form.xlsx to your Downloads folder.', 'info');
+      return;
+    }
+
+    try {
+      showStatus('Writing to disk...', 'info');
+
+      // Request write permission
+      const options = { mode: 'readwrite' };
+      if ((await fileHandle.queryPermission(options)) !== 'granted') {
+        if ((await fileHandle.requestPermission(options)) !== 'granted') {
+          showStatus('Permission denied by browser.', 'error');
+          return;
+        }
+      }
+
+      // Read current file
+      const file = await fileHandle.getFile();
+      const buffer = await file.arrayBuffer();
+      
+      let wb;
+      if (buffer.byteLength > 0) {
+        wb = XLSX.read(buffer, { type: 'array' });
+      } else {
+        wb = XLSX.utils.book_new();
+      }
+
+      // Format Sheet
+      let ws = wb.Sheets["form"];
+      if (!ws) {
+        ws = XLSX.utils.json_to_sheet([newEntry]);
+        XLSX.utils.book_append_sheet(wb, ws, "form");
+      } else {
+        XLSX.utils.sheet_add_json(ws, [newEntry], { skipHeader: true, origin: -1 });
+      }
+
+      // Write directly back to disk
+      const outBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+      const writable = await fileHandle.createWritable();
+      await writable.write(outBuffer);
+      await writable.close();
+
+      dataForm.reset();
+      showStatus('SUCCESS! Data written inside form.xlsx on your hard drive!', 'success');
+
+    } catch (err) {
+      console.error(err);
+      showStatus(`ERROR: ${err.message}. If file is locked, close Excel or check browser console (F12).`, 'error');
+    }
+  });
+
+  function showStatus(text, type) {
+    statusMsg.textContent = text;
+    statusMsg.className = `status ${type}`;
+  }
+</script>
+
 </body>
 </html>
