@@ -1,45 +1,48 @@
+
 let userInput = document.querySelector("#input");
 let btn = document.querySelector("#btn");
+let display = document.querySelector("#display");
 
+btn.addEventListener("click", () => {
 
-btn.addEventListener("click",()=> {
-    // console.log("you clicked the button")
     let userInputValue = userInput.value;
 
-    if(userInputValue === "") {
-        console.log("Please enter a value");
+    if (userInputValue === "") {
+        alert("Please enter a value");
         return;
     }
 
-    function getData(){
-        return new Promise((resolve,reject)=>{
+    function getData() {
 
-            setTimeout(()=> {
+        return new Promise((resolve, reject) => {
 
-                if(userInputValue === "Lyca") {
-                    resolve("You are a lalabs user");
+            display.innerHTML = "Please wait while we check your data...";
+
+            setTimeout(() => {
+
+                if (userInputValue.toLowerCase() === "lyca") {
+                    resolve("Hello Mahal ko!! ❤️");
                 } else {
-                    reject("You are not a lalabs user");
+                    reject("You are not my mahal ko!! 😭");
                 }
-            },2000)
 
-        })
+            }, 2000);
+        });
     }
 
+    async function getUserData() {
 
-    async function getUserData(){
         try {
+
             let result = await getData();
-            console.log(result);
+            display.innerHTML = result;
+
         } catch (error) {
-            console.log(error);
+
+            display.innerHTML = error;
+
         }
     }
 
     getUserData();
-    
-
-
-
-}) 
-
+});
