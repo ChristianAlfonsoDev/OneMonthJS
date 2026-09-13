@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="catInfo"></div>
+
+    <script>
+
+      const apiUrl = "https://api.thecatapi.com/v1/images/search";
+      const catInfoDiv = document.getElementById("catInfo");
+
+      const getDog = async () => {
+        try {
+            const response = await fetch(apiUrl);
+
+            if(!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+
+            const { height, id, url, width } = data[0];
+
+            const catInfo = `
+                <div>
+                    <p>Height: ${height}</p>
+                    <p>ID: ${id}</p>
+                    <img src="${url}" alt="Cat">
+                    <p>Width: ${width}</p>
+                </div>
+            `;
+
+            catInfoDiv.innerHTML = catInfo;
+
+            document.getElementById("dog-image").src = url; 
+        }
+        catch(error) {
+            console.error(error)
+        }
+      }
+
+      getDog();
+    </script>
+</body>
+</html>
