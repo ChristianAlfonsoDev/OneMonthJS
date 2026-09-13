@@ -5,7 +5,6 @@ async function fetchData() {
     const img = document.querySelector("#image");
     const statusMessage = document.querySelector("#name");
 
-
     try {
 
 
