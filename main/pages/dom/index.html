@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        body {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            border: 1px solid black;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            background-color: red;
+        }
+    </style>
+
+
+    <div class="container">
+        Don't Click me!
+    </div>
+
+    
+
+    <script>
+        const containerDiv = document.querySelector('.container');
+
+        containerDiv.addEventListener('mouseout', event => {
+            event.target.style.backgroundColor = 'red';
+            event.target.textContent = "Don't click me!";
+
+        })
+
+        containerDiv.addEventListener('mouseover', event => {
+            event.target.style.backgroundColor = 'green';
+            event.target.textContent = 'Click me!';
+        })
+
+        containerDiv.addEventListener('click', event => {
+            event.target.style.backgroundColor = 'blue';
+            event.target.textContent = 'I love you! mahal!';
+        })
+      
+    </script>
+</body>
+</html>
