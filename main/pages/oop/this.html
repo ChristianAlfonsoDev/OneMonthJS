@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>this</title>
+</head>
+<body>
+    
+    <p></p>
+
+    <script>
+      const student = {
+        name: "John Doe",
+        age: 20,
+        greet: function() {
+            return `Hello, my name is ${this.name} and I am ${this.age} years old.`;
+        }
+      }
+
+      document.querySelector("p").innerHTML = student.greet(); // Output: Hello, my name is John Doe and I am 20 years old.
+    </script>
+</body>
+</html>
