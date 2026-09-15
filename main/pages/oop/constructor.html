@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<style>
+    body {
+        padding: 20px;
+    }
+</style>
+<body>
+
+    <form id="form" class="d-flex flex-column gap-2" style="width: 300px;">
+
+        <input type="text" class="form-control" id="name" placeholder="Name">
+        <input type="number" class="form-control" id="age" placeholder="Age">
+        <input type="text" class="form-control" id="section" placeholder="Section">
+
+        <input type="submit" class="btn btn-primary" value="Add Student">
+
+    </form>
+
+    <p id="output"></p>
+    
+    <script>
+        const output = document.getElementById("output");
+        // Array is outside the event
+        const students = [];
+
+        // Constructor
+        class Student {
+            constructor(name, age, section) {
+                this.name = name;
+                this.age = age;
+                this.section = section;
+            }
+        }
+
+        const formContainer = document.getElementById("form");
+
+        formContainer.addEventListener("submit", (event) => {
+
+            event.preventDefault();
+
+            // Get values from inputs
+            const name = document.getElementById("name").value;
+            const age = document.getElementById("age").value;
+            const section = document.getElementById("section").value;
+
+            // Create Student object
+            const student = new Student(name, age, section);
+
+            // Put student object inside array
+            students.push(student);
+
+            const studentList = students.map((student, index) => {
+                return `${index + 1}. Name: ${student.name}, Age: ${student.age}, Section: ${student.section}`;
+            }).join("<br>");
+            output.innerHTML = studentList;
+            
+            console.log(students);
+
+        });
+
+    </script>
+
+</body>
+</html>
